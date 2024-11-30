@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Add Players{% endblock %}
+{% block content %}
+<h3>Let's Add All Players</h3>
+
+<form method="post" id="players-form">
+    {% csrf_token %}
+    <div id="form-container">
+        <!-- Player 1 -->
+        <div class="player-form">
+            <h4>Player 1</h4>
+            <label for="player1-name">Name:</label>
+            <input type="text" name="player1-name" id="player1-name" required><br>
+            
+            <label for="player1-gender">Gender:</label>
+            <select name="player1-gender" id="player1-gender">
+                <option value="">Select Gender</option>
+                {% for value, display in form.fields.gender.choices %}
+                <option value="{{ value }}">{{ display }}</option>
+                {% endfor %}
+            </select><br>
+
+            <label for="player1-ageType">Age Type:</label>
+            <select name="player1-ageType" id="player1-ageType">
+                <option value="">Select Age Type</option>
+                {% for value, display in form.fields.ageType.choices %}
+                <option value="{{ value }}">{{ display }}</option>
+                {% endfor %}
+            </select><br>
+        </div>
+    </div>
+    <button type="button" id="add-player-btn">Add New Player</button> <!-- Add player button -->
+    <button type="submit">Save</button> <!-- Submit button -->
+</form>
+
+<script>
+document.getElementById('add-player-btn').addEventListener('click', function() {
+    const formContainer = document.getElementById('form-container');
+    const playerCount = formContainer.children.length + 1; // Get the current number of player forms
+
+    // Create a new player form dynamically
+    const newPlayerForm = `
+        <div class="player-form">
+            <h4>Player ${playerCount}</h4>
+            <label for="player${playerCount}-name">Name:</label>
+            <input type="text" name="player${playerCount}-name" id="player${playerCount}-name" required><br>
+            
+            <label for="player${playerCount}-gender">Gender:</label>
+            <select name="player${playerCount}-gender" id="player${playerCount}-gender">
+                <option value="">Select Gender</option>
+                {% for value, display in form.fields.gender.choices %}
+                <option value="{{ value }}">{{ display }}</option>
+                {% endfor %}
+            </select><br>
+
+            <label for="player${playerCount}-ageType">Age Type:</label>
+            <select name="player${playerCount}-ageType" id="player${playerCount}-ageType">
+                <option value="">Select Age Type</option>
+                {% for value, display in form.fields.ageType.choices %}
+                <option value="{{ value }}">{{ display }}</option>
+                {% endfor %}
+            </select><br>
+        </div>
+    `;
+
+    // Append the new player form
+    formContainer.insertAdjacentHTML('beforeend', newPlayerForm);
+});
+</script>
+
+{% endblock %}

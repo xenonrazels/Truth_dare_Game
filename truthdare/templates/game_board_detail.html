@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Board Detail</title>
+</head>
+<body>
+
+<h3>Game Board: {{ game_board.id }}</h3>
+
+<h4>Players:</h4>
+<ul>
+    {% for player in game_board.players.all %}
+        <li>{{ player.name }}</li>
+    {% endfor %}
+</ul>
+
+<button id="spin-btn">Spin</button>
+
+<div id="result"></div>
+
+<script>
+document.getElementById('spin-btn').addEventListener('click', function() {
+    const gameBoardId = {{ game_board.id }};  // Get the game board ID from the template context
+    fetch(`/spin_wheel/${gameBoardId}/`)  // Send a request to the backend
+        .then(response => response.json())
+        .then(data => {
+            // Display the selected player and Truth/Dare choice
+            document.getElementById('result').innerHTML = 
+                `Your Turn ${data.selected_player.name}!<br> Your : ${data.truth_or_dare} Question is
+                ${data.selected_question}`;
+        });
+});
+</script>
+
+</body>
+</html>

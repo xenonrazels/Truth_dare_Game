@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %} Home{%endblock %}
+{% block content %}
+<h1>
+    Rumi Truth/Dare
+</h1>
+<h3>Play your Truth/Dare Game on exciting Mode</h3>
+<button onclick="window.location.href='{% url 'add_player' %}'">Let's Play</button>
+{% endblock %}
